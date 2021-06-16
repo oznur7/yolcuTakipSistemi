@@ -1,0 +1,9 @@
+<div class="container" *ngIf="yolcu">
+  <h1>{{yolcu.adSoyad}}</h1>
+  <b>Uçuş : </b> {{yolcu.ucusAdi}} &nbsp;&nbsp;
+  <b>Tarih : </b> {{yolcu.tarih | date:'dd.MM.yyyy HH:mm:ss'}}&nbsp;&nbsp;
+  <b>Yazan : </b> {{yolcu.uyeKadi}}&nbsp;&nbsp;
+  <hr>
+  <div [innerHtml]="yolcu.bilgi |safeHtml"></div>
+  <hr>
+</div>

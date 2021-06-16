@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>{{uye?.kullaniciAdi}} Adlı Üyeye Ait Yolcular</h1>
+  <h3 style="color:red" *ngIf="yolcular?.length==0">Henüz Bu Üye Yolcu Eklemedi!</h3>
+  <div *ngFor="let yolcu of yolcular">
+    <h2>{{yolcu.bilgi}}</h2>
+    <p>
+      <b>Uçuş : </b> {{yolcu.ucusAdi}} &nbsp;&nbsp;
+      <b>Tarih : </b> {{yolcu.tarih}}&nbsp;&nbsp;
+      <b>Yazan : </b> {{yolcu.uyeKadi}}&nbsp;&nbsp;
+      <a href="#" [routerLink]="['/yolcu',yolcu.yolcuId]">Yolcu Bilgileri</a>
+
+    </p>
+    <hr>
+  </div>
+
+
+</div>

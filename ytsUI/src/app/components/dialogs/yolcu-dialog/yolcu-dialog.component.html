@@ -1,0 +1,31 @@
+<mat-toolbar color="primary" class="mat-elevation-z8">
+  <span>{{dialogAdSoyad}}</span>
+</mat-toolbar>
+<div class="container" *ngIf="islem!='detay'">
+  <form [formGroup]="frm">
+    <mat-form-field appearance="outline">
+      <mat-label>Ucus Adı</mat-label>
+      <mat-select placeholder="Ucus Seçiniz" formControlName="ucusId" required>
+        <mat-option [value]="uc.ucusId" *ngFor="let uc of ucuslar">{{uc.ucusAdi}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Ad Soyad</mat-label>
+      <input matInput placeholder="Başlık" formControlName="Ad Soyad" required>
+    </mat-form-field>
+    <jodit-editor [config]="Jconfig" formControlName="Bilgi"></jodit-editor>
+
+  </form>
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)"
+    [disabled]="frm.invalid">Kaydet</button>&nbsp;
+  <button mat-raised-button color="warn" (click)="dialogRef.close()">İptal</button>&nbsp;
+</div>
+
+
+
+<div class="container" *ngIf="islem=='detay'">
+
+  <h2>{{yeniKayit.adSoyad}}</h2>
+  <div [innerHTML]="yeniKayit.bilgi | safeHtml"></div>
+  <button mat-raised-button color="warn" (click)="dialogRef.close()">Kapat</button>
+</div>

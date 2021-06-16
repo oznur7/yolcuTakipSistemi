@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>{{ucu?.ucusAdi}} Uçuşu Yolcuları</h1>
+  <h3 style="color:red" *ngIf="yolcular?.length==0">Henüz bu uçuşa yolcu eklenmedi.</h3>
+  <div *ngFor="let yolcu of yolcular">
+    <h2>{{yolcu.adSoyad}}</h2>
+    <p>
+      <b>Uçuş : </b> {{yolcu.ucusAdi}} &nbsp;&nbsp;
+      <b>Tarih : </b> {{yolcu.tarih}}&nbsp;&nbsp;
+      <b>Yazan : </b><a href="#" [routerLink]="['/uyeyolcu',yolcu.uyeId]"> {{yolcu.uyeKadi}}</a>&nbsp;&nbsp;
+      <a href="#" [routerLink]="['/yolcu',yolcu.bilgi]">Yolcu Bilgileri</a>
+
+    </p>
+    <hr>
+  </div>
+
+
+</div>
