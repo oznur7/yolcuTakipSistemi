@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB_ytsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Sirket">
+          <Key>
+            <PropertyRef Name="sirketId" />
+          </Key>
+          <Property Name="sirketId" Type="int" Nullable="false" />
+          <Property Name="sirketAdi" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Ucus">
+          <Key>
+            <PropertyRef Name="ucusId" />
+          </Key>
+          <Property Name="ucusId" Type="int" Nullable="false" />
+          <Property Name="ucusAdi" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="uyeId" />
+          </Key>
+          <Property Name="uyeId" Type="int" Nullable="false" />
+          <Property Name="kullaniciAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="sifre" Type="nvarchar" MaxLength="50" />
+          <Property Name="uyeAdSoyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="foto" Type="nchar" MaxLength="100" />
+          <Property Name="uyeAdmin" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Yolcu">
+          <Key>
+            <PropertyRef Name="yolcuId" />
+          </Key>
+          <Property Name="yolcuId" Type="int" Nullable="false" />
+          <Property Name="adSoyad" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="bilgi" Type="nvarchar(max)" />
+          <Property Name="foto" Type="nvarchar" MaxLength="100" />
+          <Property Name="tarih" Type="datetime" />
+          <Property Name="ucusId" Type="int" Nullable="false" />
+          <Property Name="uyeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="YolcuSirket">
+          <Key>
+            <PropertyRef Name="Sirket_sirketId" />
+          </Key>
+          <Property Name="Sirket_sirketId" Type="int" Nullable="false" />
+          <Property Name="Yolcu_yolcuId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Yolcu_ToUcus">
+          <End Role="Ucus" Type="Self.Ucus" Multiplicity="1" />
+          <End Role="Yolcu" Type="Self.Yolcu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ucus">
+              <PropertyRef Name="ucusId" />
+            </Principal>
+            <Dependent Role="Yolcu">
+              <PropertyRef Name="ucusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yolcu_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Yolcu" Type="Self.Yolcu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Yolcu">
+              <PropertyRef Name="uyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YolcuSirket_ToSirket">
+          <End Role="Sirket" Type="Self.Sirket" Multiplicity="1" />
+          <End Role="YolcuSirket" Type="Self.YolcuSirket" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sirket">
+              <PropertyRef Name="sirketId" />
+            </Principal>
+            <Dependent Role="YolcuSirket">
+              <PropertyRef Name="Sirket_sirketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YolcuSirket_ToYolcu">
+          <End Role="Yolcu" Type="Self.Yolcu" Multiplicity="1" />
+          <End Role="YolcuSirket" Type="Self.YolcuSirket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Yolcu">
+              <PropertyRef Name="yolcuId" />
+            </Principal>
+            <Dependent Role="YolcuSirket">
+              <PropertyRef Name="Yolcu_yolcuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_ytsModelStoreContainer">
+          <EntitySet Name="Sirket" EntityType="Self.Sirket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ucus" EntityType="Self.Ucus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uye" EntityType="Self.Uye" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Yolcu" EntityType="Self.Yolcu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YolcuSirket" EntityType="Self.YolcuSirket" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Yolcu_ToUcus" Association="Self.FK_Yolcu_ToUcus">
+            <End Role="Ucus" EntitySet="Ucus" />
+            <End Role="Yolcu" EntitySet="Yolcu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yolcu_ToUye" Association="Self.FK_Yolcu_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Yolcu" EntitySet="Yolcu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YolcuSirket_ToSirket" Association="Self.FK_YolcuSirket_ToSirket">
+            <End Role="Sirket" EntitySet="Sirket" />
+            <End Role="YolcuSirket" EntitySet="YolcuSirket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YolcuSirket_ToYolcu" Association="Self.FK_YolcuSirket_ToYolcu">
+            <End Role="Yolcu" EntitySet="Yolcu" />
+            <End Role="YolcuSirket" EntitySet="YolcuSirket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_ytsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Sirket">
+          <Key>
+            <PropertyRef Name="sirketId" />
+          </Key>
+          <Property Name="sirketId" Type="Int32" Nullable="false" />
+          <Property Name="sirketAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Yolcu" Relationship="Self.YolcuSirket" FromRole="Sirket" ToRole="Yolcu" />
+        </EntityType>
+        <EntityType Name="Ucus">
+          <Key>
+            <PropertyRef Name="ucusId" />
+          </Key>
+          <Property Name="ucusId" Type="Int32" Nullable="false" />
+          <Property Name="ucusAdi" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Yolcu" Relationship="Self.FK_Yolcu_ToUcus" FromRole="Ucus" ToRole="Yolcu" />
+        </EntityType>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="uyeId" />
+          </Key>
+          <Property Name="uyeId" Type="Int32" Nullable="false" />
+          <Property Name="kullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uyeAdSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="foto" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="uyeAdmin" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Yolcu" Relationship="Self.FK_Yolcu_ToUye" FromRole="Uye" ToRole="Yolcu" />
+        </EntityType>
+        <EntityType Name="Yolcu">
+          <Key>
+            <PropertyRef Name="yolcuId" />
+          </Key>
+          <Property Name="yolcuId" Type="Int32" Nullable="false" />
+          <Property Name="adSoyad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="bilgi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="foto" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="tarih" Type="DateTime" Precision="3" />
+          <Property Name="ucusId" Type="Int32" Nullable="false" />
+          <Property Name="uyeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ucus" Relationship="Self.FK_Yolcu_ToUcus" FromRole="Yolcu" ToRole="Ucus" />
+          <NavigationProperty Name="Uye" Relationship="Self.FK_Yolcu_ToUye" FromRole="Yolcu" ToRole="Uye" />
+          <NavigationProperty Name="Sirket" Relationship="Self.YolcuSirket" FromRole="Yolcu" ToRole="Sirket" />
+        </EntityType>
+        <Association Name="FK_Yolcu_ToUcus">
+          <End Role="Ucus" Type="Self.Ucus" Multiplicity="1" />
+          <End Role="Yolcu" Type="Self.Yolcu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ucus">
+              <PropertyRef Name="ucusId" />
+            </Principal>
+            <Dependent Role="Yolcu">
+              <PropertyRef Name="ucusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yolcu_ToUye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1" />
+          <End Role="Yolcu" Type="Self.Yolcu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="uyeId" />
+            </Principal>
+            <Dependent Role="Yolcu">
+              <PropertyRef Name="uyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="YolcuSirket">
+          <End Role="Sirket" Type="Self.Sirket" Multiplicity="*" />
+          <End Role="Yolcu" Type="Self.Yolcu" Multiplicity="0..1" />
+        </Association>
+        <EntityContainer Name="DB_ytsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Sirket" EntityType="Self.Sirket" />
+          <EntitySet Name="Ucus" EntityType="Self.Ucus" />
+          <EntitySet Name="Uye" EntityType="Self.Uye" />
+          <EntitySet Name="Yolcu" EntityType="Self.Yolcu" />
+          <AssociationSet Name="FK_Yolcu_ToUcus" Association="Self.FK_Yolcu_ToUcus">
+            <End Role="Ucus" EntitySet="Ucus" />
+            <End Role="Yolcu" EntitySet="Yolcu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yolcu_ToUye" Association="Self.FK_Yolcu_ToUye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="Yolcu" EntitySet="Yolcu" />
+          </AssociationSet>
+          <AssociationSet Name="YolcuSirket" Association="Self.YolcuSirket">
+            <End Role="Sirket" EntitySet="Sirket" />
+            <End Role="Yolcu" EntitySet="Yolcu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_ytsModelStoreContainer" CdmEntityContainer="DB_ytsEntities">
+          <EntitySetMapping Name="Sirket">
+            <EntityTypeMapping TypeName="DB_ytsModel.Sirket">
+              <MappingFragment StoreEntitySet="Sirket">
+                <ScalarProperty Name="sirketId" ColumnName="sirketId" />
+                <ScalarProperty Name="sirketAdi" ColumnName="sirketAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ucus">
+            <EntityTypeMapping TypeName="DB_ytsModel.Ucus">
+              <MappingFragment StoreEntitySet="Ucus">
+                <ScalarProperty Name="ucusId" ColumnName="ucusId" />
+                <ScalarProperty Name="ucusAdi" ColumnName="ucusAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uye">
+            <EntityTypeMapping TypeName="DB_ytsModel.Uye">
+              <MappingFragment StoreEntitySet="Uye">
+                <ScalarProperty Name="uyeId" ColumnName="uyeId" />
+                <ScalarProperty Name="kullaniciAdi" ColumnName="kullaniciAdi" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="sifre" ColumnName="sifre" />
+                <ScalarProperty Name="uyeAdSoyad" ColumnName="uyeAdSoyad" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="uyeAdmin" ColumnName="uyeAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yolcu">
+            <EntityTypeMapping TypeName="DB_ytsModel.Yolcu">
+              <MappingFragment StoreEntitySet="Yolcu">
+                <ScalarProperty Name="yolcuId" ColumnName="yolcuId" />
+                <ScalarProperty Name="adSoyad" ColumnName="adSoyad" />
+                <ScalarProperty Name="bilgi" ColumnName="bilgi" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="ucusId" ColumnName="ucusId" />
+                <ScalarProperty Name="uyeId" ColumnName="uyeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="YolcuSirket" TypeName="DB_ytsModel.YolcuSirket" StoreEntitySet="YolcuSirket">
+            <EndProperty Name="Sirket">
+              <ScalarProperty Name="sirketId" ColumnName="Sirket_sirketId" />
+            </EndProperty>
+            <EndProperty Name="Yolcu">
+              <ScalarProperty Name="yolcuId" ColumnName="Yolcu_yolcuId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
